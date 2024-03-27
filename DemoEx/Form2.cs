@@ -8,12 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using BCrypt.Net;
 
 namespace DemoEx
 {
     public partial class Form2 : Form
     {
-        string connStr = "server=127.0.0.1;port=3306;user=root;database=kurs;";
+        //string connStr = "server=127.0.0.1;port=3306;user=root;database=kurs;";
+        string connStr = "server=localhost;port=3306;user=root;database=kurs_5;password=root;";
         MySqlConnection conn;
         private MySqlDataAdapter MyDA = new MySqlDataAdapter();
 
@@ -52,8 +54,43 @@ namespace DemoEx
         
         private void button1_Click(object sender, EventArgs e)
         {
-            string sql = "SELECT * FROM users WHERE log_user = '" + textBox1.Text + "' and pass_user = '" + sha256(textBox2.Text) +"'";
-            string a = textBox1.Text;
+            try
+            {
+                string sql = "SELECT * FROM users WHERE log_user = '" + textBox1.Text + "' and pass_user = '" + sha256(textBox2.Text) + "'";
+                conn.Open();
+                DataTable table = new DataTable();
+                MySqlDataAdapter adapter = new MySqlDataAdapter();
+                MySqlCommand command = new MySqlCommand(sql, conn);
+
+                command.Parameters.Add("@un", MySqlDbType.VarChar, 25);
+                command.Parameters.Add("@up", MySqlDbType.VarChar, 25);
+
+                command.Parameters["@un"].Value = textBox1.Text;
+                command.Parameters["@up"].Value = sha256(textBox2.Text);
+
+                adapter.SelectCommand = command;
+
+                adapter.Fill(table);
+                conn.Close();
+
+                if (table.Rows.Count > 0)
+                {
+                    Auth.auth = true;
+                    GetUserInfo(textBox1.Text);
+                    MessageBox.Show("Авторизация успешна!");
+                    //this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Неверные данные авторизации!");
+                }
+            }
+            catch (Exception ex)
+            {
+                label6.Text = $"Возникло исключение: { ex.Message}";
+                label6.Visible = true;
+            }
+            //string a = textBox1.Text;
             //label1.Text = a;
         }
 
@@ -68,6 +105,16 @@ namespace DemoEx
                 label6.Text = $"Подключение отсутствует! Возникло исключение: { ex.Message}";
                 label6.Visible = true;
             }
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            textBox3.Text = sha256(textBox2.Text);
         }
     }
 }
