@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
-using BCrypt.Net;
 
 namespace DemoEx
 {
@@ -62,10 +61,10 @@ namespace DemoEx
                 MySqlDataAdapter adapter = new MySqlDataAdapter();
                 MySqlCommand command = new MySqlCommand(sql, conn);
 
-                command.Parameters.Add("@un", MySqlDbType.VarChar, 25);
+                command.Parameters.Add("@ul", MySqlDbType.VarChar, 25);
                 command.Parameters.Add("@up", MySqlDbType.VarChar, 25);
 
-                command.Parameters["@un"].Value = textBox1.Text;
+                command.Parameters["@ul"].Value = textBox1.Text;
                 command.Parameters["@up"].Value = sha256(textBox2.Text);
 
                 adapter.SelectCommand = command;
