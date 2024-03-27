@@ -77,7 +77,11 @@ namespace DemoEx
                     Auth.auth = true;
                     GetUserInfo(textBox1.Text);
                     MessageBox.Show("Авторизация успешна!");
-                    //this.Close();
+                    Form4 example = new Form4();
+                    Form1 hub = new Form1();
+                    hub.
+                    this.Hide();
+                    example.ShowDialog();
                 }
                 else
                 {
@@ -113,7 +117,7 @@ namespace DemoEx
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-            textBox3.Text = sha256(textBox2.Text);
+            //textBox3.Text = sha256(textBox2.Text);
         }
     }
 }
