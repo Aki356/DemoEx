@@ -16,7 +16,11 @@ namespace DemoEx
         public Form1()
         {
             InitializeComponent();
-
+        }
+        public void ChangeTextInTextBox(string newText)
+        {
+            label2.Text = newText;
+            button2.Visible = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -29,12 +33,22 @@ namespace DemoEx
 
         private void button2_Click(object sender, EventArgs e)
         {
-            //Form1 form1 = new Form1();
-            Form2 example = new Form2();
+            Form1 form1 = new Form1();
+            Form2 example = new Form2(form1);
             this.Hide();
             example.ShowDialog();
             this.Show();
             //form1.Hide();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void button2_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
