@@ -53,6 +53,7 @@ namespace DemoEx
             this.label3.Size = new System.Drawing.Size(215, 31);
             this.label3.TabIndex = 11;
             this.label3.Text = "Введите пароль";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // label2
             // 
@@ -65,13 +66,14 @@ namespace DemoEx
             this.label2.Size = new System.Drawing.Size(196, 31);
             this.label2.TabIndex = 10;
             this.label2.Text = "Введите логин";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // button1
             // 
             this.button1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
             this.button1.Location = new System.Drawing.Point(292, 517);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(380, 43);
             this.button1.TabIndex = 9;
@@ -84,20 +86,22 @@ namespace DemoEx
             this.textBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
             this.textBox2.Location = new System.Drawing.Point(292, 286);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(379, 34);
             this.textBox2.TabIndex = 8;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // textBox1
             // 
             this.textBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
             this.textBox1.Location = new System.Drawing.Point(292, 208);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(379, 34);
             this.textBox1.TabIndex = 7;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label1
             // 
@@ -122,16 +126,18 @@ namespace DemoEx
             this.label4.Size = new System.Drawing.Size(175, 31);
             this.label4.TabIndex = 13;
             this.label4.Text = "Введите имя";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // textBox3
             // 
             this.textBox3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
             this.textBox3.Location = new System.Drawing.Point(292, 361);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(4);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(379, 34);
             this.textBox3.TabIndex = 12;
+            this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // label5
             // 
@@ -144,16 +150,18 @@ namespace DemoEx
             this.label5.Size = new System.Drawing.Size(235, 31);
             this.label5.TabIndex = 15;
             this.label5.Text = "Введите телефон";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // textBox4
             // 
             this.textBox4.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
             this.textBox4.Location = new System.Drawing.Point(292, 436);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox4.Margin = new System.Windows.Forms.Padding(4);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(379, 34);
             this.textBox4.TabIndex = 14;
+            this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
             // 
             // label6
             // 
@@ -185,7 +193,7 @@ namespace DemoEx
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form3";
             this.Text = "Form3";
             this.Load += new System.EventHandler(this.Form3_Load);
