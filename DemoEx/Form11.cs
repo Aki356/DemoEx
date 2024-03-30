@@ -9,9 +9,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 
+
 namespace DemoEx
 {
-    public partial class Form10 : Form
+    public partial class Form11 : Form
     {
         object[] status;
         string name_status;
@@ -20,7 +21,7 @@ namespace DemoEx
         private BindingSource bs = new BindingSource();
         private DataSet ds = new DataSet();
         private DataTable table = new DataTable();
-        public Form10()
+        public Form11()
         {
             InitializeComponent();
         }
@@ -45,7 +46,7 @@ namespace DemoEx
 
         public void GetStatusUsers()
         {
-            string commandStr = "SELECT * FROM status WHERE id_status = 3 OR id_status = 4";
+            string commandStr = "SELECT * FROM status WHERE id_status = 2 OR id_status = 6";
             conn.Open();
             using (MySqlDataAdapter da = new MySqlDataAdapter(commandStr, conn))
             {
@@ -73,7 +74,40 @@ namespace DemoEx
             reload_list();
         }
 
-        private void Form10_Load(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string sql = "SELECT * FROM orders";
+                conn.Open();
+                using (MySqlDataAdapter da = new MySqlDataAdapter(sql, conn))
+                {
+                    MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    if (dataGridView1.SelectedRows.Count > 0)
+                    {
+                        int lastIndex = dataGridView1.SelectedRows[dataGridView1.SelectedRows.Count].Index;
+                        dt.Rows[lastIndex][8] = comboBox1.SelectedItem;
+                    }
+                    
+                    da.Update(dt);
+                }
+
+
+                conn.Close();
+                MessageBox.Show("Статус успешно изменен!");
+                reload_list();
+            }
+            catch (Exception ex)
+            {
+                listBox1.Items.Add($"Возникло исключение: { ex.Message}");
+                listBox1.HorizontalScrollbar = true;
+                listBox1.Visible = true;
+            }
+        }
+
+        private void Form11_Load(object sender, EventArgs e)
         {
             try
             {
@@ -106,34 +140,6 @@ namespace DemoEx
                 dataGridView1.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
 
-            }
-            catch (Exception ex)
-            {
-                listBox1.Items.Add($"Возникло исключение: { ex.Message}");
-                listBox1.HorizontalScrollbar = true;
-                listBox1.Visible = true;
-            }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string sql = "SELECT * FROM orders";
-                conn.Open();
-                using (MySqlDataAdapter da = new MySqlDataAdapter(sql, conn))
-                {
-                    MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-                    dt.Rows[dataGridView1.CurrentCell.RowIndex][8] = comboBox1.SelectedItem;
-                    da.Update(dt);
-                }
-
-
-                conn.Close();
-                MessageBox.Show("Статус успешно изменен!");
-                reload_list();
             }
             catch (Exception ex)
             {
@@ -184,36 +190,6 @@ namespace DemoEx
                 listBox1.HorizontalScrollbar = true;
                 listBox1.Visible = true;
             }
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
