@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace DemoEx
 {
-    public partial class Form5 : Form
+    public partial class Form10 : Form
     {
-        public Form5()
+        public Form10()
         {
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Form10_Load(object sender, EventArgs e)
         {
 
         }

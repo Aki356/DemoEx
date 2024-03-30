@@ -38,11 +38,12 @@ namespace DemoEx
             // listBox1
             // 
             this.listBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.listBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 16;
+            this.listBox1.ItemHeight = 25;
             this.listBox1.Location = new System.Drawing.Point(26, 650);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(1091, 52);
+            this.listBox1.Size = new System.Drawing.Size(1091, 29);
             this.listBox1.TabIndex = 42;
             this.listBox1.Visible = false;
             // 
