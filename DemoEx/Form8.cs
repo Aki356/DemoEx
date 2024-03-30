@@ -46,13 +46,13 @@ namespace DemoEx
 
         private void Form8_Load(object sender, EventArgs e)
         {
-            //try
-            //{
+            try
+            {
 
                 //string connStr = "server=127.0.0.1;port=3306;user=root;database=kurs;";
                 string connStr = "server=localhost;port=3306;user=root;database=kurs_5;password=root;";
                 conn = new MySqlConnection(connStr);
-            GetListUsers();
+                GetListUsers();
                 dataGridView1.AllowUserToAddRows = false;
 
                 //dataGridView1.Columns[0].ReadOnly = true;
@@ -74,13 +74,13 @@ namespace DemoEx
                 dataGridView1.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
 
-            //}
-            //catch (Exception ex)
-            //{
-            //    listBox1.Items.Add($"Возникло исключение: { ex.Message}");
-            //    listBox1.HorizontalScrollbar = true;
-            //    listBox1.Visible = true;
-            //}
+            }
+            catch (Exception ex)
+            {
+                listBox1.Items.Add($"Возникло исключение: { ex.Message}");
+                listBox1.HorizontalScrollbar = true;
+                listBox1.Visible = true;
+            }
         }
     }
 }
