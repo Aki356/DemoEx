@@ -29,5 +29,13 @@ namespace DemoEx
             example.ShowDialog();
             this.Show();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Form8 example = new Form8();
+            this.Hide();
+            example.ShowDialog();
+            this.Show();
+        }
     }
 }
