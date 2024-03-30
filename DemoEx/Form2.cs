@@ -117,8 +117,9 @@ namespace DemoEx
             }
             catch (Exception ex)
             {
-                label6.Text = $"Возникло исключение: { ex.Message}";
-                label6.Visible = true;
+                listBox1.Items.Add($"Возникло исключение: { ex.Message}");
+                listBox1.HorizontalScrollbar = true;
+                listBox1.Visible = true;
             }
             //string a = textBox1.Text;
             //label1.Text = a;
@@ -132,8 +133,9 @@ namespace DemoEx
             }
             catch (Exception ex)
             {
-                label6.Text = $"Подключение отсутствует! Возникло исключение: { ex.Message}";
-                label6.Visible = true;
+                listBox1.Items.Add($"Подключение отсутствует! Возникло исключение: { ex.Message}");
+                listBox1.HorizontalScrollbar = true;
+                listBox1.Visible = true;
             }
         }
 

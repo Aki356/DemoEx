@@ -142,7 +142,7 @@ namespace DemoEx
                         da.Fill(dt);
                         // This is important, because Update will work only on rows
                         // present in the DataTable whose RowState is Added, Modified or Deleted
-                        dt.Rows.Add(textBox1.Text, sha256(textBox2.Text), textBox3.Text, textBox4.Text, 2, 1);
+                        dt.Rows.Add(textBox1.Text, sha256(textBox2.Text), textBox3.Text, textBox4.Text, comboBox2.SelectedItem, comboBox3.SelectedItem);
                         da.Update(dt);
                     }
                     conn.Close();
@@ -217,46 +217,64 @@ namespace DemoEx
 
         private void comboBox3_SelectedValueChanged(object sender, EventArgs e)
         {
-            if (comboBox3.SelectedItem.ToString() == "0")
+            try
             {
-                name_status = null;
-            }
-            else if (comboBox3.SelectedItem.ToString() == "1")
-            {
-                name_status = "Действующий";
-            }
-            else if (comboBox3.SelectedItem.ToString() == "2")
-            {
-                name_status = "Уволен";
-            }
-            else if (comboBox3.SelectedItem.ToString() == "3")
-            {
-                name_status = "Временно действующий";
-            }
+                if (comboBox3.SelectedItem.ToString() == "0")
+                {
+                    name_status = null;
+                }
+                else if (comboBox3.SelectedItem.ToString() == "1")
+                {
+                    name_status = "Действующий";
+                }
+                else if (comboBox3.SelectedItem.ToString() == "2")
+                {
+                    name_status = "Уволен";
+                }
+                else if (comboBox3.SelectedItem.ToString() == "3")
+                {
+                    name_status = "Временно действующий";
+                }
 
-            textBox7.Text = name_status.ToString();
+                textBox7.Text = name_status.ToString();
+            }
+            catch (Exception ex)
+            {
+                listBox1.Items.Add($"Возникло исключение: { ex.Message}");
+                listBox1.HorizontalScrollbar = true;
+                listBox1.Visible = true;
+            }
         }
 
         private void comboBox2_SelectedValueChanged(object sender, EventArgs e)
         {
-            if (comboBox2.SelectedItem.ToString() == "0")
+            try
             {
-                name_role = "Неизвестный";
-            }
-            else if (comboBox2.SelectedItem.ToString() == "1")
-            {
-                name_role = "Администратор";
-            }
-            else if (comboBox2.SelectedItem.ToString() == "2")
-            {
-                name_role = "Официант";
-            }
-            else if (comboBox2.SelectedItem.ToString() == "3")
-            {
-                name_role = "Повар";
-            }
+                if (comboBox2.SelectedItem.ToString() == "0")
+                {
+                    name_role = "Неизвестный";
+                }
+                else if (comboBox2.SelectedItem.ToString() == "1")
+                {
+                    name_role = "Администратор";
+                }
+                else if (comboBox2.SelectedItem.ToString() == "2")
+                {
+                    name_role = "Официант";
+                }
+                else if (comboBox2.SelectedItem.ToString() == "3")
+                {
+                    name_role = "Повар";
+                }
 
-            textBox6.Text = name_role.ToString();
+                textBox6.Text = name_role.ToString();
+            }
+            catch (Exception ex)
+            {
+                listBox1.Items.Add($"Возникло исключение: { ex.Message}");
+                listBox1.HorizontalScrollbar = true;
+                listBox1.Visible = true;
+            }
         }
     }
 }

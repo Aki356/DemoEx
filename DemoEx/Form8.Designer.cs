@@ -64,12 +64,12 @@ namespace DemoEx
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Underline);
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(116)))), ((int)(((byte)(112)))));
-            this.label1.Location = new System.Drawing.Point(387, 18);
+            this.label1.Location = new System.Drawing.Point(451, 19);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(362, 69);
+            this.label1.Size = new System.Drawing.Size(237, 69);
             this.label1.TabIndex = 40;
-            this.label1.Text = "Сотрудники";
+            this.label1.Text = "Заказы";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // Form8

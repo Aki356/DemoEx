@@ -25,20 +25,38 @@ namespace DemoEx
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Form3 example = new Form3();
-            this.Hide();
-            example.ShowDialog();
-            this.Show();
+            try
+            {
+                Form3 example = new Form3();
+                this.Hide();
+                example.ShowDialog();
+                this.Show();
+            }
+            catch (Exception ex)
+            {
+                listBox1.Items.Add($"Возникло исключение: { ex.Message}");
+                listBox1.HorizontalScrollbar = true;
+                listBox1.Visible = true;
+            }
+
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Form1 form1 = new Form1();
-            Form2 example = new Form2(form1);
-            this.Hide();
-            example.ShowDialog();
-            this.Show();
-            //form1.Hide();
+            try
+            {
+                Form1 form1 = new Form1();
+                Form2 example = new Form2(form1);
+                this.Hide();
+                example.ShowDialog();
+                this.Show();
+            }
+            catch (Exception ex)
+            {
+                listBox1.Items.Add($"Возникло исключение: { ex.Message}");
+                listBox1.HorizontalScrollbar = true;
+                listBox1.Visible = true;
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)

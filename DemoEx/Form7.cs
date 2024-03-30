@@ -128,10 +128,19 @@ namespace DemoEx
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            Form3 example = new Form3();
-            this.Hide();
-            example.ShowDialog();
-            this.Show();
+            try
+            {
+                Form3 example = new Form3();
+                this.Hide();
+                example.ShowDialog();
+                this.Show();
+            }
+            catch (Exception ex)
+            {
+                listBox1.Items.Add($"Возникло исключение: { ex.Message}");
+                listBox1.HorizontalScrollbar = true;
+                listBox1.Visible = true;
+            }
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -141,23 +150,30 @@ namespace DemoEx
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string sql = "SELECT * FROM users WHERE users.id_role NOT IN (SELECT id_role FROM users  WHERE id_role = 0)";
-            conn.Open();
-            using (MySqlDataAdapter da = new MySqlDataAdapter(sql, conn))
+            try
             {
-                MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                dt.Rows[dataGridView1.CurrentCell.RowIndex][7] = comboBox1.SelectedItem;
+                string sql = "SELECT * FROM users WHERE users.id_role NOT IN (SELECT id_role FROM users  WHERE id_role = 0)";
+                conn.Open();
+                using (MySqlDataAdapter da = new MySqlDataAdapter(sql, conn))
+                {
+                    MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    dt.Rows[dataGridView1.CurrentCell.RowIndex][7] = comboBox1.SelectedItem;
+                    da.Update(dt);
+                }
 
-                MessageBox.Show(comboBox1.SelectedItem.ToString());
-                da.Update(dt);
+
+                conn.Close();
+                MessageBox.Show("Статус успешно изменен!");
+                reload_list();
             }
-
-            
-            conn.Close();
-            MessageBox.Show("Регистрация прошла успешно!");
-            reload_list();
+            catch (Exception ex)
+            {
+                listBox1.Items.Add($"Возникло исключение: { ex.Message}");
+                listBox1.HorizontalScrollbar = true;
+                listBox1.Visible = true;
+            }
         }
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
@@ -167,20 +183,29 @@ namespace DemoEx
 
         private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedItem.ToString() == "1")
+            try
             {
-                name_status = "Действующий";
-            }
-            else if (comboBox1.SelectedItem.ToString() == "2")
-            {
-                name_status = "Уволен";
-            }
-            else if (comboBox1.SelectedItem.ToString() == "3")
-            {
-                name_status = "Временно действующий";
-            }
+                if (comboBox1.SelectedItem.ToString() == "1")
+                {
+                    name_status = "Действующий";
+                }
+                else if (comboBox1.SelectedItem.ToString() == "2")
+                {
+                    name_status = "Уволен";
+                }
+                else if (comboBox1.SelectedItem.ToString() == "3")
+                {
+                    name_status = "Временно действующий";
+                }
 
-            textBox5.Text = name_status.ToString();
+                textBox5.Text = name_status.ToString();
+            }
+            catch (Exception ex)
+            {
+                listBox1.Items.Add($"Возникло исключение: { ex.Message}");
+                listBox1.HorizontalScrollbar = true;
+                listBox1.Visible = true;
+            }
         }
 
         private void comboBox2_SelectedValueChanged(object sender, EventArgs e)
