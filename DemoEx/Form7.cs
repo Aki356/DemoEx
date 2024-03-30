@@ -13,6 +13,7 @@ namespace DemoEx
 {
     public partial class Form7 : Form
     {
+        object[] status;
         string name_status;
         MySqlConnection conn;
         private MySqlDataAdapter MyDA = new MySqlDataAdapter();
@@ -77,7 +78,36 @@ namespace DemoEx
                 return false;
             }
         }
-        
+
+        public void GetStatusUsers()
+        {
+            string commandStr = "SELECT * FROM status";
+            conn.Open();
+            using (MySqlDataAdapter da = new MySqlDataAdapter(commandStr, conn))
+            {
+                MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
+                DataTable dt = new DataTable();
+                BindingSource bs = new BindingSource();
+                da.Fill(dt);
+                bs.DataSource = dt;
+                dataGridView1.DataSource = bs;
+                // This is important, because Update will work only on rows
+                // present in the DataTable whose RowState is Added, Modified or Deleted
+                foreach (DataGridViewRow row in dataGridView1.Rows) //перебираем все строки в таблице
+                {
+                    foreach (DataGridViewCell cell in row.Cells) //перебираем все ячейки в каждой строке
+                    {
+                        if (cell.ColumnIndex == 0) //проверяем какому столбцу принадлежит ячейка (указать индекс вашего столбца)
+                        {
+                            status = new object[] { Convert.ToInt32(cell.Value) };
+                            comboBox1.Items.AddRange(status);
+                        }
+                    }
+                }
+            }
+            conn.Close();
+            reload_list();
+        }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -92,6 +122,7 @@ namespace DemoEx
                 //string connStr = "server=127.0.0.1;port=3306;user=root;database=kurs;";
                 string connStr = "server=localhost;port=3306;user=root;database=kurs_5;password=root;";
                 conn = new MySqlConnection(connStr);
+                GetStatusUsers();
                 dataGridView1.AllowUserToAddRows = false;
 
                 dataGridView1.Columns[0].ReadOnly = true;
