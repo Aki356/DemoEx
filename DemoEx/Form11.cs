@@ -85,9 +85,7 @@ namespace DemoEx
                     MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
                     DataTable dt = new DataTable();
                     da.Fill(dt);
-                    
-                        dt.Rows[dataGridView1.SelectedCells[0].RowIndex][8] = comboBox1.SelectedItem;
-                    
+                    dt.Rows[dataGridView1.CurrentCell.RowIndex][8] = comboBox1.SelectedItem;
                     da.Update(dt);
                 }
 
