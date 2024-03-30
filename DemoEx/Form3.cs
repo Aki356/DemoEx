@@ -42,8 +42,6 @@ namespace DemoEx
             adapter.SelectCommand = command;
 
             adapter.Fill(tb);
-            label6.Text = Convert.ToString(tb.Rows.Count);
-            label6.Visible = true;
             conn.Close();
 
             if (tb.Rows.Count > 0)
@@ -88,7 +86,7 @@ namespace DemoEx
                         da.Update(dt);
                     }
                     conn.Close();
-                    MessageBox.Show("Авторизация успешна!");
+                    MessageBox.Show("Регистрация прошла успешно!");
                 }
             }
             catch (Exception ex)
