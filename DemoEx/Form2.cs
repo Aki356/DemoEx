@@ -13,9 +13,6 @@ namespace DemoEx
 {
     public partial class Form2 : Form
     {
-        public delegate void ChangeTextBox(string nText);
-        public event ChangeTextBox ChangeTextBox1;
-
         //string connStr = "server=127.0.0.1;port=3306;user=root;database=kurs;";
         string connStr = "server=localhost;port=3306;user=root;database=kurs_5;password=root;";
         MySqlConnection conn;
@@ -52,7 +49,6 @@ namespace DemoEx
         public Form2(Form1 f1)
         {
             InitializeComponent();
-            ChangeTextBox1 += f1.ChangeTextInTextBox;
         }
         
         private void button1_Click(object sender, EventArgs e)
@@ -80,35 +76,34 @@ namespace DemoEx
                 {
                     Auth.auth = true;
                     GetUserInfo(textBox1.Text);
-                    MessageBox.Show("Авторизация успешна! "+Auth.auth.ToString());
+                    MessageBox.Show("Авторизация успешна!");
                     if(Auth.auth_role == 1)
                     {
-                        ChangeTextBox1("Добро пожаловать, "+ textBox1.Text +"!");
                         Form4 example = new Form4();
                         this.Hide();
                         example.ShowDialog();
                     }
                     else if (Auth.auth_role == 2)
                     {
-                        ChangeTextBox1("Добро пожаловать, " + textBox1.Text + "!");
                         Form6 example = new Form6();
                         this.Hide();
                         example.ShowDialog();
                     }
                     else if (Auth.auth_role == 3)
                     {
-                        ChangeTextBox1("Добро пожаловать, " + textBox1.Text + "!");
                         Form5 example = new Form5();
                         this.Hide();
                         example.ShowDialog();
                     }
                     else if (Auth.auth_role == 0)
                     {
-                        ChangeTextBox1("Добро пожаловать, " + textBox1.Text + "!");
                         Form1 example = new Form1();
+                        example.label2.Text = "Вы вошли, но вы не являетесь сотрудником";
                         this.Hide();
                         example.ShowDialog();
                     }
+                    
+                    
                 }
                 else
                 {
@@ -121,8 +116,8 @@ namespace DemoEx
                 listBox1.HorizontalScrollbar = true;
                 listBox1.Visible = true;
             }
-            //string a = textBox1.Text;
-            //label1.Text = a;
+            string a = textBox1.Text;
+            label1.Text = a;
         }
 
         private void Form2_Load(object sender, EventArgs e)

@@ -18,6 +18,7 @@ namespace DemoEx
 
         string name_id;
         string name_role;
+        int id_role;
         //string connStr = "server=127.0.0.1;port=3306;user=root;database=kurs;";
         string connStr = "server=localhost;port=3306;user=root;database=kurs_5;password=root;";
         MySqlConnection conn;
@@ -31,7 +32,7 @@ namespace DemoEx
         }
         public void GetListUsers()
         {
-            string commandStr = "SELECT id_shift AS 'Код', date_shift AS 'Дата смены', time_shift AS 'Время смены', users.name_user AS 'Имя сотрудника', role.name_role AS 'Должность' FROM shifts INNER JOIN users ON users.id_user=shifts.id_user INNER JOIN role ON role.id_role=users.id_role ORDER BY shifts.id_shift ASC";
+            string commandStr = "SELECT id_shift AS 'Код', date_shift AS 'Дата смены', time_shift AS 'Время смены', users.name_user AS 'Имя сотрудника', role.name_role AS 'Должность' FROM shifts INNER JOIN users ON users.id_user=shifts.id_user INNER JOIN role ON role.id_role=shifts.role_user ORDER BY shifts.id_shift ASC";
             conn.Open();
             MyDA.SelectCommand = new MySqlCommand(commandStr, conn);
             MyDA.Fill(table);
@@ -66,7 +67,7 @@ namespace DemoEx
                         {
                             role = new object[] { Convert.ToInt32(cell.Value) };
 
-                            comboBox2.Items.AddRange(role);
+                            //comboBox2.Items.AddRange(role);
                         }
                     }
                 }
@@ -106,6 +107,7 @@ namespace DemoEx
 
         public void Role(int i, DataTable dt)
         {
+            //MessageBox.Show(dt.Rows.Count.ToString());
             for (i = 0; i < dt.Rows.Count; i++)
             {
                 if (comboBox1.SelectedItem != null)
@@ -113,19 +115,21 @@ namespace DemoEx
                     if (comboBox1.SelectedItem.ToString() == dt.Rows[i][0].ToString())
                     {
                         name_id = dt.Rows[i][3].ToString();
-                        name_role = dt.Rows[i][5].ToString();
-                        comboBox2.SelectedItem = dt.Rows[i][6].ToString();
-                        //MessageBox.Show(dt.Rows[i][6].ToString());
-                        i++;
+                        name_role = dt.Rows[i][6].ToString();
+                        id_role = Convert.ToInt32(dt.Rows[i][5].ToString());
+
+                        //MessageBox.Show(id_role + " " + name_role + " " + name_id);
                     }
                 }
             }
+
         }
 
         public void SetectedCB2()
         {
-            string commandStr = "SELECT id_user AS 'Код', log_user AS 'Логин', pass_user AS 'Пароль', name_user AS 'Имя', phone_user AS 'Номер тел.', role.name_role AS 'Должность', statususer.name_statusUser AS 'Статус сотрудника' FROM users INNER JOIN statususer ON statususer.id_statusUser=users.statusUser_user INNER JOIN role ON role.id_role=users.id_role WHERE users.id_role NOT IN (SELECT id_role FROM users  WHERE id_role = 0)";
+            string commandStr = "SELECT id_user AS 'Код', log_user AS 'Логин', pass_user AS 'Пароль', name_user AS 'Имя', phone_user AS 'Номер тел.', users.id_role AS 'Код должности', role.name_role AS 'Должность', statususer.name_statusUser AS 'Статус сотрудника' FROM users INNER JOIN statususer ON statususer.id_statusUser=users.statusUser_user INNER JOIN role ON role.id_role=users.id_role WHERE users.id_role NOT IN (SELECT id_role FROM users  WHERE id_role = 0) ORDER BY `Код` ASC";
             conn.Open();
+            table.Clear();
             using (MySqlDataAdapter da = new MySqlDataAdapter(commandStr, conn))
             {
                 MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
@@ -137,18 +141,7 @@ namespace DemoEx
                 dataGridView1.DataSource = bs;
 
                 Roles roles = new Roles(Role);
-                // This is important, because Update will work only on rows
-                // present in the DataTable whose RowState is Added, Modified or Deleted
-                foreach (DataGridViewRow row in dataGridView1.Rows) //перебираем все строки в таблице
-                {
-                    foreach (DataGridViewCell cell in row.Cells) //перебираем все ячейки в каждой строке
-                    {
-                        //if (cell.ColumnIndex == 0) //проверяем какому столбцу принадлежит ячейка (указать индекс вашего столбца)
-                        //{
-                        roles(key, dt);
-                        //}
-                    }
-                }
+                roles(key, dt);
             }
             conn.Close();
             reload_list();
@@ -174,7 +167,7 @@ namespace DemoEx
                     da.Fill(dt);
                     // This is important, because Update will work only on rows
                     // present in the DataTable whose RowState is Added, Modified or Deleted
-                    dt.Rows.Add(dateTimePicker1.Value.ToString("yyyy-MM-dd"), "" + dateTimePicker2.Value.ToString("HH:mm") + " - " + dateTimePicker3.Value.ToString("HH:mm") + "", comboBox1.SelectedItem, 1);
+                    dt.Rows.Add(dateTimePicker1.Value.ToString("dd.MM.yyyy"), "" + dateTimePicker2.Value.ToString("HH:mm") + " - " + dateTimePicker3.Value.ToString("HH:mm") + "", comboBox1.SelectedItem, Convert.ToInt32(textBox3.Text));
                     da.Update(dt);
                 }
                 conn.Close();
@@ -196,6 +189,7 @@ namespace DemoEx
                 SetectedCB2();
                 textBox1.Text = name_id.ToString();
                 textBox2.Text = name_role.ToString();
+                textBox3.Text = id_role.ToString();
             }
             catch (Exception ex)
             {
@@ -213,6 +207,9 @@ namespace DemoEx
                 GetIdUsers();
                 GetRoleUsers();
                 dataGridView1.AllowUserToAddRows = false;
+                textBox1.ReadOnly = true;
+                textBox2.ReadOnly = true;
+                textBox3.ReadOnly = true;
 
                 dateTimePicker1.Format = DateTimePickerFormat.Short;
                 dateTimePicker2.Format = DateTimePickerFormat.Time;
@@ -225,20 +222,14 @@ namespace DemoEx
                 dataGridView1.Columns[2].ReadOnly = true;
                 dataGridView1.Columns[3].ReadOnly = true;
                 dataGridView1.Columns[4].ReadOnly = true;
-                dataGridView1.Columns[5].ReadOnly = true;
-                dataGridView1.Columns[6].ReadOnly = true;
-                textBox1.ReadOnly = true;
-                textBox2.ReadOnly = true;
 
                 dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 dataGridView1.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 dataGridView1.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 dataGridView1.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 dataGridView1.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                dataGridView1.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                dataGridView1.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
-
+            
             }
             catch (Exception ex)
             {
@@ -271,6 +262,11 @@ namespace DemoEx
         }
 
         private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label8_Click(object sender, EventArgs e)
         {
 
         }
