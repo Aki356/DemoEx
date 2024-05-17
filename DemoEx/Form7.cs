@@ -81,7 +81,7 @@ namespace DemoEx
 
         public void GetStatusUsers()
         {
-            string commandStr = "SELECT * FROM status";
+            string commandStr = "SELECT * FROM statususer WHERE name_statusUser = 'Уволен'";
             conn.Open();
             using (MySqlDataAdapter da = new MySqlDataAdapter(commandStr, conn))
             {
@@ -228,8 +228,12 @@ namespace DemoEx
                 {
                     name_status = "Временно действующий";
                 }
+                else
+                {
+                    name_status = null;
+                }
 
-                textBox5.Text = name_status.ToString();
+                textBox5.Text = name_status;
             }
             catch (Exception ex)
             {
