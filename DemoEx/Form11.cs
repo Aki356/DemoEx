@@ -16,6 +16,7 @@ namespace DemoEx
     {
         object[] status;
         string name_status;
+        DateTime now = DateTime.Today;
         MySqlConnection conn;
         private MySqlDataAdapter MyDA = new MySqlDataAdapter();
         private BindingSource bs = new BindingSource();
@@ -35,7 +36,7 @@ namespace DemoEx
 
         public void GetListUsers()
         {
-            string commandStr = "SELECT id_order AS 'Код', numId_order AS 'Номер заказа', users.name_user AS 'Имя пользователя', product.name_product AS 'Товар', count_order AS 'Количество', date_order AS 'Дата заказа', time_order AS 'Время заказа', totalPrise_order AS 'Сумма товара (цена*количество)', status.name_status AS 'Статус заказа' FROM orders INNER JOIN product ON product.id_product=orders.id_products INNER JOIN status ON status.id_status=orders.id_status INNER JOIN users ON users.id_user=orders.id_user ORDER BY orders.id_order ASC";
+            string commandStr = "SELECT id_orderServer AS 'Код', numId_orderServer AS 'Номер заказа', numTable_orderServer AS 'Номер стола', users.name_user AS 'Имя сотрудника', date_orderServer AS 'Дата заказа', time_orderServer AS 'Время заказа', ordersserver.id_shift AS 'Код смены', shifts.time_shift AS 'Время смены', countVisitor_orderServer AS 'Количество посетителей', product.name_product AS 'Товар', count_orderServer AS 'Количество товара', totalPrice_orderServer AS 'Сумма товара (цена*количество)', status.name_status AS 'Статус заказа' FROM ordersserver INNER JOIN shifts ON shifts.id_shift=ordersserver.id_shift INNER JOIN product ON product.id_product=ordersserver.id_product INNER JOIN status ON status.id_status=ordersserver.id_status INNER JOIN users ON users.id_user=ordersserver.id_employee WHERE shifts.date_shift = '"+ now.ToString("dd.MM.yyyy") + "' ORDER BY ordersserver.id_orderServer ASC";
             conn.Open();
             MyDA.SelectCommand = new MySqlCommand(commandStr, conn);
             MyDA.Fill(table);
@@ -208,6 +209,11 @@ namespace DemoEx
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
         {
 
         }
