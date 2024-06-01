@@ -143,5 +143,10 @@ namespace DemoEx
         {
             //textBox3.Text = sha256(textBox2.Text);
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
