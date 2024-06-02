@@ -168,6 +168,7 @@ namespace DemoEx
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Form4";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Окно администратора";
             this.ResumeLayout(false);
             this.PerformLayout();

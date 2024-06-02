@@ -69,7 +69,7 @@ namespace DemoEx
             // 
             this.textBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.textBox2.Location = new System.Drawing.Point(314, 283);
+            this.textBox2.Location = new System.Drawing.Point(314, 292);
             this.textBox2.Margin = new System.Windows.Forms.Padding(4);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(379, 34);
@@ -98,12 +98,13 @@ namespace DemoEx
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(324, 170);
+            this.label2.Location = new System.Drawing.Point(308, 170);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(196, 31);
             this.label2.TabIndex = 4;
             this.label2.Text = "Введите логин";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label3
             // 
@@ -111,12 +112,13 @@ namespace DemoEx
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
             this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(324, 247);
+            this.label3.Location = new System.Drawing.Point(308, 256);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(215, 31);
             this.label3.TabIndex = 5;
             this.label3.Text = "Введите пароль";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // listBox1
             // 
@@ -187,6 +189,7 @@ namespace DemoEx
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form2";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form2";
             this.Load += new System.EventHandler(this.Form2_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

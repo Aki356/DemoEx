@@ -269,9 +269,9 @@ namespace DemoEx
             // pictureBox1
             // 
             this.pictureBox1.Image = global::DemoEx.Properties.Resources.employees;
-            this.pictureBox1.Location = new System.Drawing.Point(340, 67);
+            this.pictureBox1.Location = new System.Drawing.Point(324, 51);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(68, 63);
+            this.pictureBox1.Size = new System.Drawing.Size(84, 79);
             this.pictureBox1.TabIndex = 67;
             this.pictureBox1.TabStop = false;
             // 
@@ -330,6 +330,7 @@ namespace DemoEx
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form3";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form3";
             this.Load += new System.EventHandler(this.Form3_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

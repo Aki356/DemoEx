@@ -82,5 +82,10 @@ namespace DemoEx
                 listBox1.Visible = true;
             }
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
