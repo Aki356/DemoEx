@@ -187,7 +187,7 @@ namespace DemoEx
             this.button4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button4.FlatAppearance.BorderSize = 0;
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
+            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
             this.button4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(247)))), ((int)(((byte)(244)))));
             this.button4.Location = new System.Drawing.Point(344, 464);
             this.button4.Margin = new System.Windows.Forms.Padding(4);

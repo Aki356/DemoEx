@@ -44,12 +44,12 @@ namespace DemoEx
             this.dataGridView1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(239)))), ((int)(((byte)(234)))));
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(40, 142);
+            this.dataGridView1.Location = new System.Drawing.Point(40, 159);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(1318, 692);
+            this.dataGridView1.Size = new System.Drawing.Size(1318, 675);
             this.dataGridView1.TabIndex = 41;
             // 
             // label1
@@ -58,7 +58,7 @@ namespace DemoEx
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Underline);
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(118)))), ((int)(((byte)(69)))));
-            this.label1.Location = new System.Drawing.Point(575, 50);
+            this.label1.Location = new System.Drawing.Point(575, 62);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(237, 69);
@@ -110,10 +110,10 @@ namespace DemoEx
             // pictureBox1
             // 
             this.pictureBox1.Image = global::DemoEx.Properties.Resources.orders;
-            this.pictureBox1.Location = new System.Drawing.Point(485, 60);
+            this.pictureBox1.Location = new System.Drawing.Point(479, 53);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(83, 76);
-            this.pictureBox1.TabIndex = 75;
+            this.pictureBox1.Size = new System.Drawing.Size(89, 87);
+            this.pictureBox1.TabIndex = 80;
             this.pictureBox1.TabStop = false;
             // 
             // Form8

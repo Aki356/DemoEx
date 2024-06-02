@@ -75,7 +75,7 @@ namespace DemoEx
             // 
             this.textBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox1.Location = new System.Drawing.Point(1081, 390);
+            this.textBox1.Location = new System.Drawing.Point(1118, 390);
             this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(201, 30);
@@ -87,7 +87,7 @@ namespace DemoEx
             this.comboBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(946, 387);
+            this.comboBox1.Location = new System.Drawing.Point(983, 387);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(110, 33);
             this.comboBox1.TabIndex = 48;
@@ -98,11 +98,11 @@ namespace DemoEx
             // 
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label8.Location = new System.Drawing.Point(972, 339);
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label8.Location = new System.Drawing.Point(978, 334);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(266, 25);
+            this.label8.Size = new System.Drawing.Size(342, 31);
             this.label8.TabIndex = 47;
             this.label8.Text = "Изменить статус заказа";
             this.label8.Click += new System.EventHandler(this.label8_Click);
@@ -113,9 +113,9 @@ namespace DemoEx
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(149)))), ((int)(((byte)(92)))));
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(247)))), ((int)(((byte)(244)))));
-            this.button1.Location = new System.Drawing.Point(946, 451);
+            this.button1.Location = new System.Drawing.Point(983, 451);
             this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(336, 77);
@@ -168,9 +168,9 @@ namespace DemoEx
             // pictureBox1
             // 
             this.pictureBox1.Image = global::DemoEx.Properties.Resources.orders;
-            this.pictureBox1.Location = new System.Drawing.Point(523, 97);
+            this.pictureBox1.Location = new System.Drawing.Point(517, 86);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(83, 76);
+            this.pictureBox1.Size = new System.Drawing.Size(89, 87);
             this.pictureBox1.TabIndex = 79;
             this.pictureBox1.TabStop = false;
             // 
