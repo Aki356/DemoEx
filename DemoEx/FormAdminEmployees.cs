@@ -11,7 +11,7 @@ using MySql.Data.MySqlClient;
 
 namespace DemoEx
 {
-    public partial class Form7 : Form
+    public partial class FormAdminEmployees : Form
     {
         object[] status;
         string name_status;
@@ -20,7 +20,7 @@ namespace DemoEx
         private BindingSource bs = new BindingSource();
         private DataSet ds = new DataSet();
         private DataTable table = new DataTable();
-        public Form7()
+        public FormAdminEmployees()
         {
             InitializeComponent();
         }
@@ -142,7 +142,7 @@ namespace DemoEx
                 dataGridView1.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 dataGridView1.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
-                
+                reload_list();
             }
             catch (Exception ex)
             {
@@ -161,10 +161,11 @@ namespace DemoEx
         {
             try
             {
-                Form3 example = new Form3();
+                FormToReg example = new FormToReg();
                 this.Hide();
                 example.ShowDialog();
                 this.Show();
+                reload_list();
             }
             catch (Exception ex)
             {
@@ -190,7 +191,7 @@ namespace DemoEx
                     MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
                     DataTable dt = new DataTable();
                     da.Fill(dt);
-                    dt.Rows[dataGridView1.CurrentCell.RowIndex][7] = comboBox1.SelectedItem;
+                    dt.Rows[dataGridView1.CurrentCell.RowIndex][6] = comboBox1.SelectedItem;
                     da.Update(dt);
                 }
 
@@ -256,6 +257,55 @@ namespace DemoEx
         private void button3_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string sql = "SELECT * FROM users WHERE users.id_role NOT IN (SELECT id_role FROM users  WHERE id_role = 0)";
+                conn.Open();
+                using (MySqlDataAdapter da = new MySqlDataAdapter(sql, conn))
+                {
+                    MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    DialogResult dialogResult = MessageBox.Show("Вы уверены, что хотите удалить пользователя " + dt.Rows[dataGridView1.CurrentCell.RowIndex][3] + " под кодом " + dt.Rows[dataGridView1.CurrentCell.RowIndex][0], "Some Title", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        try
+                        {
+                            using (MySqlCommand command = new MySqlCommand("DELETE FROM users WHERE id_user = '" + dt.Rows[dataGridView1.CurrentCell.RowIndex][0] + "'", conn))
+                            {
+                                command.ExecuteNonQuery();
+                                MessageBox.Show("Пользователь успешно удален!");
+                                da.Update(dt);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            listBox1.Items.Add($"Возникло исключение: { ex.Message}");
+                            listBox1.HorizontalScrollbar = true;
+                            listBox1.Visible = true;
+                        }
+                        //reload_list();
+                    }
+                    else if (dialogResult == DialogResult.No)
+                    {
+                        
+                    }
+                    conn.Close();
+                    reload_list();
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                listBox1.Items.Add($"Возникло исключение: { ex.Message}");
+                listBox1.HorizontalScrollbar = true;
+                listBox1.Visible = true;
+            }
+
         }
     }
 }

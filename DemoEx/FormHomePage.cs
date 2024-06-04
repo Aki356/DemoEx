@@ -11,7 +11,7 @@ using MySql.Data.MySqlClient;
 
 namespace DemoEx
 {
-    public partial class Form1 : Form
+    public partial class FormHomePage : Form
     {
         //string connStr = "server=127.0.0.1;port=3306;user=root;database=kurs;";
         string connStr = "server=localhost;port=3306;user=root;database=kurs_5;password=root;";
@@ -41,12 +41,13 @@ namespace DemoEx
             {
                 Auth.auth_id = reader[0].ToString();
                 Auth.auth_log = reader[1].ToString();
-                Auth.auth_role = Convert.ToInt32(reader[6].ToString());
+                Auth.auth_name = reader[3].ToString();
+                Auth.auth_role = Convert.ToInt32(reader[5].ToString());
             }
             reader.Close();
             conn.Close();
         }
-        public Form1()
+        public FormHomePage()
         {
             InitializeComponent();
         }
@@ -60,7 +61,7 @@ namespace DemoEx
         {
             try
             {
-                Form3 example = new Form3();
+                FormToReg example = new FormToReg();
                 this.Hide();
                 example.ShowDialog();
                 this.Show();
@@ -78,8 +79,8 @@ namespace DemoEx
         {
             try
             {
-                Form1 form1 = new Form1();
-                Form2 example = new Form2(form1);
+                FormHomePage form1 = new FormHomePage();
+                FormToAuth example = new FormToAuth(form1);
                 this.Hide();
                 example.ShowDialog();
                 this.Show();
@@ -144,21 +145,21 @@ namespace DemoEx
                     MessageBox.Show("Авторизация успешна!");
                     if (Auth.auth_role == 1)
                     {
-                        Form4 example = new Form4();
+                        FormAdmin example = new FormAdmin();
                         this.Hide();
                         example.ShowDialog();
                         this.Show();
                     }
                     else if (Auth.auth_role == 2)
                     {
-                        Form6 example = new Form6();
+                        FormWaiter example = new FormWaiter();
                         this.Hide();
                         example.ShowDialog();
                         this.Show();
                     }
                     else if (Auth.auth_role == 3)
                     {
-                        Form5 example = new Form5();
+                        FormCook example = new FormCook();
                         this.Hide();
                         example.ShowDialog();
                         this.Show();

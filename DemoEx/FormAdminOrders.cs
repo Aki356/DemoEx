@@ -11,14 +11,14 @@ using MySql.Data.MySqlClient;
 
 namespace DemoEx
 {
-    public partial class Form8 : Form
+    public partial class FormAdminOrders : Form
     {
         MySqlConnection conn;
         private MySqlDataAdapter MyDA = new MySqlDataAdapter();
         private BindingSource bs = new BindingSource();
         private DataSet ds = new DataSet();
         private DataTable table = new DataTable();
-        public Form8()
+        public FormAdminOrders()
         {
             InitializeComponent();
         }
@@ -31,7 +31,7 @@ namespace DemoEx
 
         public void GetListUsers()
         {
-            string commandStr = "SELECT id_order AS 'Код', numId_order AS 'Номер заказа', users.name_user AS 'Имя пользователя', product.name_product AS 'Товар', count_order AS 'Количество', date_order AS 'Дата заказа', time_order AS 'Время заказа', totalPrise_order AS 'Сумма товара (цена*количество)', status.name_status AS 'Статус заказа' FROM orders INNER JOIN product ON product.id_product=orders.id_products INNER JOIN status ON status.id_status=orders.id_status INNER JOIN users ON users.id_user=orders.id_user ORDER BY orders.id_order ASC";
+            string commandStr = "SELECT id_order AS 'Код', numId_order AS 'Номер заказа', users.name_user AS 'Имя пользователя', product.name_product AS 'Товар', count_order AS 'Количество', date_order AS 'Дата заказа', time_order AS 'Время заказа', totalPrise_order AS 'Сумма товара (цена*количество)', status.name_status AS 'Статус заказа' FROM orders INNER JOIN product ON product.id_product=orders.id_products INNER JOIN status ON status.id_status=orders.id_status INNER JOIN users ON users.id_user=orders.id_user ORDER BY orders.id_order DESC";
             conn.Open();
             MyDA.SelectCommand = new MySqlCommand(commandStr, conn);
             MyDA.Fill(table);

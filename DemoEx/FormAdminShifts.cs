@@ -11,7 +11,7 @@ using MySql.Data.MySqlClient;
 
 namespace DemoEx
 {
-    public partial class Form9 : Form
+    public partial class FormAdminShifts : Form
     {
         object[] id;
         object[] role;
@@ -26,13 +26,13 @@ namespace DemoEx
         private BindingSource bs = new BindingSource();
         private DataSet ds = new DataSet();
         private DataTable table = new DataTable();
-        public Form9()
+        public FormAdminShifts()
         {
             InitializeComponent();
         }
         public void GetListUsers()
         {
-            string commandStr = "SELECT id_shift AS 'Код', date_shift AS 'Дата смены', time_shift AS 'Время смены', users.name_user AS 'Имя сотрудника', role.name_role AS 'Должность' FROM shifts INNER JOIN users ON users.id_user=shifts.id_user INNER JOIN role ON role.id_role=shifts.role_user ORDER BY shifts.id_shift ASC";
+            string commandStr = "SELECT id_shift AS 'Код', date_shift AS 'Дата смены', time_shift AS 'Время смены', users.name_user AS 'Имя сотрудника', role.name_role AS 'Должность' FROM shifts INNER JOIN users ON users.id_user=shifts.id_user INNER JOIN role ON role.id_role=shifts.role_user ORDER BY shifts.id_shift DESC";
             conn.Open();
             MyDA.SelectCommand = new MySqlCommand(commandStr, conn);
             MyDA.Fill(table);
@@ -127,7 +127,7 @@ namespace DemoEx
 
         public void SetectedCB2()
         {
-            string commandStr = "SELECT id_user AS 'Код', log_user AS 'Логин', pass_user AS 'Пароль', name_user AS 'Имя', phone_user AS 'Номер тел.', users.id_role AS 'Код должности', role.name_role AS 'Должность', statususer.name_statusUser AS 'Статус сотрудника' FROM users INNER JOIN statususer ON statususer.id_statusUser=users.statusUser_user INNER JOIN role ON role.id_role=users.id_role WHERE users.id_role NOT IN (SELECT id_role FROM users  WHERE id_role = 0) ORDER BY `Код` ASC";
+            string commandStr = "SELECT id_user AS 'Код', log_user AS 'Логин', pass_user AS 'Пароль', name_user AS 'Имя', phone_user AS 'Номер тел.', users.id_role AS 'Код должности', role.name_role AS 'Должность', statususer.name_statusUser AS 'Статус сотрудника' FROM users INNER JOIN statususer ON statususer.id_statusUser=users.statusUser_user INNER JOIN role ON role.id_role=users.id_role WHERE users.id_role NOT IN (SELECT id_role FROM users  WHERE id_role = 0) ORDER BY `Код` DESC";
             conn.Open();
             table.Clear();
             using (MySqlDataAdapter da = new MySqlDataAdapter(commandStr, conn))

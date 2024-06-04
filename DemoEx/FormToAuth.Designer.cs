@@ -1,7 +1,7 @@
 ﻿
 namespace DemoEx
 {
-    partial class Form2
+    partial class FormToAuth
     {
         /// <summary>
         /// Required designer variable.

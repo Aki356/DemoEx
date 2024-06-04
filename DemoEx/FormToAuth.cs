@@ -11,7 +11,7 @@ using MySql.Data.MySqlClient;
 
 namespace DemoEx
 {
-    public partial class Form2 : Form
+    public partial class FormToAuth : Form
     {
         //string connStr = "server=127.0.0.1;port=3306;user=root;database=kurs;";
         string connStr = "server=localhost;port=3306;user=root;database=kurs_5;password=root;";
@@ -46,7 +46,7 @@ namespace DemoEx
             reader.Close();
             conn.Close();
         }
-        public Form2(Form1 f1)
+        public FormToAuth(FormHomePage f1)
         {
             InitializeComponent();
         }
@@ -79,25 +79,25 @@ namespace DemoEx
                     MessageBox.Show("Авторизация успешна!");
                     if(Auth.auth_role == 1)
                     {
-                        Form4 example = new Form4();
+                        FormAdmin example = new FormAdmin();
                         this.Hide();
                         example.ShowDialog();
                     }
                     else if (Auth.auth_role == 2)
                     {
-                        Form6 example = new Form6();
+                        FormWaiter example = new FormWaiter();
                         this.Hide();
                         example.ShowDialog();
                     }
                     else if (Auth.auth_role == 3)
                     {
-                        Form5 example = new Form5();
+                        FormCook example = new FormCook();
                         this.Hide();
                         example.ShowDialog();
                     }
                     else if (Auth.auth_role == 0)
                     {
-                        Form1 example = new Form1();
+                        FormHomePage example = new FormHomePage();
                         example.label2.Text = "Вы вошли, но вы не являетесь сотрудником";
                         this.Hide();
                         example.ShowDialog();

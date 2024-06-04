@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace DemoEx
 {
-    public partial class Form4 : Form
+    public partial class FormAdmin : Form
     {
-        public Form4()
+        public FormAdmin()
         {
             InitializeComponent();
         }
@@ -26,7 +26,7 @@ namespace DemoEx
         {
             try
             {
-                Form7 example = new Form7();
+                FormAdminEmployees example = new FormAdminEmployees();
                 this.Hide();
                 example.ShowDialog();
                 this.Show();
@@ -43,7 +43,7 @@ namespace DemoEx
         {
             try
             {
-                Form8 example = new Form8();
+                FormAdminOrders example = new FormAdminOrders();
                 this.Hide();
                 example.ShowDialog();
                 this.Show();
@@ -60,7 +60,7 @@ namespace DemoEx
         {
             try
             {
-                Form9 example = new Form9();
+                FormAdminShifts example = new FormAdminShifts();
                 this.Hide();
                 example.ShowDialog();
                 this.Show();
@@ -76,6 +76,28 @@ namespace DemoEx
         private void button4_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void Form4_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                if(Auth.auth_name != null)
+                {
+                    label4.Text = Auth.auth_name;
+                }
+            }
+            catch (Exception ex)
+            {
+                listBox1.Items.Add($"Возникло исключение: { ex.Message}");
+                listBox1.HorizontalScrollbar = true;
+                listBox1.Visible = true;
+            }
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

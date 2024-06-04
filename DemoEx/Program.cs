@@ -11,6 +11,7 @@ namespace DemoEx
         public static bool auth = false;
         public static string auth_id = null;
         public static string auth_log = null;
+        public static string auth_name = null;
         public static int auth_role = 0;
     }
     static class Program
@@ -23,7 +24,7 @@ namespace DemoEx
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new FormHomePage());
         }
     }
 }

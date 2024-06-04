@@ -12,7 +12,7 @@ using MySql.Data.MySqlClient;
 
 namespace DemoEx
 {
-    public partial class Form3 : Form
+    public partial class FormToReg : Form
     {
         object[] status;
         object[] role;
@@ -115,7 +115,7 @@ namespace DemoEx
                 return false;
             }
         }
-        public Form3()
+        public FormToReg()
         {
             InitializeComponent();
         }

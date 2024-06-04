@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace DemoEx
 {
-    public partial class Form5 : Form
+    public partial class FormCook : Form
     {
-        public Form5()
+        public FormCook()
         {
             InitializeComponent();
         }
@@ -21,7 +21,7 @@ namespace DemoEx
         {
             try
             {
-                Form10 example = new Form10();
+                FormCookOrders example = new FormCookOrders();
                 this.Hide();
                 example.ShowDialog();
                 this.Show();
@@ -37,6 +37,23 @@ namespace DemoEx
         private void button4_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void Form5_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                if (Auth.auth_name != null)
+                {
+                    label4.Text = Auth.auth_name;
+                }
+            }
+            catch (Exception ex)
+            {
+                listBox1.Items.Add($"Возникло исключение: { ex.Message}");
+                listBox1.HorizontalScrollbar = true;
+                listBox1.Visible = true;
+            }
         }
     }
 }

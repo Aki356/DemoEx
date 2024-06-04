@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace DemoEx
 {
-    public partial class Form6 : Form
+    public partial class FormWaiter : Form
     {
-        public Form6()
+        public FormWaiter()
         {
             InitializeComponent();
         }
@@ -37,6 +37,23 @@ namespace DemoEx
         private void button4_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void Form6_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                if (Auth.auth_name != null)
+                {
+                    label4.Text = Auth.auth_name;
+                }
+            }
+            catch (Exception ex)
+            {
+                listBox1.Items.Add($"Возникло исключение: { ex.Message}");
+                listBox1.HorizontalScrollbar = true;
+                listBox1.Visible = true;
+            }
         }
     }
 }

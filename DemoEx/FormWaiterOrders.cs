@@ -36,7 +36,7 @@ namespace DemoEx
 
         public void GetListUsers()
         {
-            string commandStr = "SELECT id_orderServer AS 'Код', numId_orderServer AS 'Номер заказа', numTable_orderServer AS 'Номер стола', users.name_user AS 'Имя сотрудника', date_orderServer AS 'Дата заказа', time_orderServer AS 'Время заказа', ordersserver.id_shift AS 'Код смены', shifts.time_shift AS 'Время смены', countVisitor_orderServer AS 'Количество посетителей', product.name_product AS 'Товар', count_orderServer AS 'Количество товара', totalPrice_orderServer AS 'Сумма товара (цена*количество)', status.name_status AS 'Статус заказа' FROM ordersserver INNER JOIN shifts ON shifts.id_shift=ordersserver.id_shift INNER JOIN product ON product.id_product=ordersserver.id_product INNER JOIN status ON status.id_status=ordersserver.id_status INNER JOIN users ON users.id_user=ordersserver.id_employee WHERE shifts.date_shift = '"+ now.ToString("dd.MM.yyyy") + "' ORDER BY ordersserver.id_orderServer ASC";
+            string commandStr = "SELECT id_order AS 'Код', numId_order AS 'Номер заказа', users.name_user AS 'Имя пользователя', product.name_product AS 'Товар', count_order AS 'Количество', date_order AS 'Дата заказа', time_order AS 'Время заказа', totalPrise_order AS 'Сумма товара (цена*количество)', status.name_status AS 'Статус заказа' FROM orders INNER JOIN product ON product.id_product=orders.id_products INNER JOIN status ON status.id_status=orders.id_status INNER JOIN users ON users.id_user=orders.id_user ORDER BY orders.id_order DESC";
             conn.Open();
             MyDA.SelectCommand = new MySqlCommand(commandStr, conn);
             MyDA.Fill(table);
@@ -79,20 +79,23 @@ namespace DemoEx
         {
             try
             {
-                string sql = "SELECT * FROM orders";
+                string sql = "SELECT * FROM orders ORDER BY orders.id_order DESC";
                 conn.Open();
                 using (MySqlDataAdapter da = new MySqlDataAdapter(sql, conn))
                 {
                     MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
                     DataTable dt = new DataTable();
                     da.Fill(dt);
-                    dt.Rows[dataGridView1.CurrentCell.RowIndex][8] = comboBox1.SelectedItem;
-                    da.Update(dt);
+                    using (MySqlCommand command = new MySqlCommand("UPDATE `orders` SET `id_status` = '"+ comboBox1.SelectedItem + "' WHERE id_order = '" + dt.Rows[dataGridView1.CurrentCell.RowIndex][0] + "'", conn))
+                    {
+                        command.ExecuteNonQuery();
+                        MessageBox.Show("Статус успешно изменен!");
+                        da.Update(dt);
+                    }
                 }
 
 
                 conn.Close();
-                MessageBox.Show("Статус успешно изменен!");
                 reload_list();
             }
             catch (Exception ex)
@@ -215,7 +218,20 @@ namespace DemoEx
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                FormWaiterNewOrder example = new FormWaiterNewOrder();
+                this.Hide();
+                example.ShowDialog();
+                this.Show();
+                reload_list();
+            }
+            catch (Exception ex)
+            {
+                listBox1.Items.Add($"Возникло исключение: { ex.Message}");
+                listBox1.HorizontalScrollbar = true;
+                listBox1.Visible = true;
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
