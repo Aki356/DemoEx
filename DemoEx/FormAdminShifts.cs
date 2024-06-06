@@ -20,7 +20,7 @@ namespace DemoEx
         string name_role;
         int id_role;
         //string connStr = "server=127.0.0.1;port=3306;user=root;database=kurs;";
-        string connStr = "server=localhost;port=3306;user=root;database=kurs_5;password=root;";
+        string connStr = "server=VH310.spaceweb.ru;port=3308;user=lefleurdru;database=lefleurdru;password=Akiko356Amiko;";
         MySqlConnection conn;
         private MySqlDataAdapter MyDA = new MySqlDataAdapter();
         private BindingSource bs = new BindingSource();
