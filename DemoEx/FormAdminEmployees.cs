@@ -180,27 +180,27 @@ namespace DemoEx
             
         }
 
+        //при нажатии кнопки Изменить
         private void button2_Click(object sender, EventArgs e)
         {
             try
             {
+                //строка запроса для БД
                 string sql = "SELECT * FROM users WHERE users.id_role NOT IN (SELECT id_role FROM users  WHERE id_role = 0)";
                 conn.Open();
-                using (MySqlDataAdapter da = new MySqlDataAdapter(sql, conn))
+                using (MySqlDataAdapter da = new MySqlDataAdapter(sql, conn)) //выполнение запроса
                 {
                     MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
                     DataTable dt = new DataTable();
-                    da.Fill(dt);
-                    dt.Rows[dataGridView1.CurrentCell.RowIndex][6] = comboBox1.SelectedItem;
-                    da.Update(dt);
+                    da.Fill(dt); //заполнение таблицы данными по запросу
+                    dt.Rows[dataGridView1.CurrentCell.RowIndex][6] = comboBox1.SelectedItem; //изменение статуса
+                    da.Update(dt); //обновление данных
                 }
-
-
                 conn.Close();
                 MessageBox.Show("Статус успешно изменен!");
-                reload_list();
+                reload_list(); //метод обновляющий таблицу
             }
-            catch (Exception ex)
+            catch (Exception ex) //блок кода для вывода ошибок
             {
                 listBox1.Items.Add($"Возникло исключение: { ex.Message}");
                 listBox1.HorizontalScrollbar = true;
@@ -259,22 +259,26 @@ namespace DemoEx
             this.Close();
         }
 
+        //при нажатии Удалить
         private void button4_Click(object sender, EventArgs e)
         {
             try
             {
+                //запрос для БД
                 string sql = "SELECT * FROM users WHERE users.id_role NOT IN (SELECT id_role FROM users  WHERE id_role = 0)";
                 conn.Open();
-                using (MySqlDataAdapter da = new MySqlDataAdapter(sql, conn))
+                using (MySqlDataAdapter da = new MySqlDataAdapter(sql, conn)) //выполнение запроса
                 {
                     MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
                     DataTable dt = new DataTable();
-                    da.Fill(dt);
-                    DialogResult dialogResult = MessageBox.Show("Вы уверены, что хотите удалить пользователя " + dt.Rows[dataGridView1.CurrentCell.RowIndex][3] + " под кодом " + dt.Rows[dataGridView1.CurrentCell.RowIndex][0], "Some Title", MessageBoxButtons.YesNo);
-                    if (dialogResult == DialogResult.Yes)
+                    da.Fill(dt); //заполнение таблицы
+                    //вывод сообщения о подтверждении действия
+                    DialogResult dialogResult = MessageBox.Show("Вы уверены, что хотите удалить пользователя " + dt.Rows[dataGridView1.CurrentCell.RowIndex][3] + " под кодом " + dt.Rows[dataGridView1.CurrentCell.RowIndex][0], "Подтверждение удаления пользователя", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes) //если ответили да, то произойдёт удаление пользователя
                     {
                         try
                         {
+                            //выполнение удаления пользователя по его идентификатору из выбранной строки в таблице
                             using (MySqlCommand command = new MySqlCommand("DELETE FROM users WHERE id_user = '" + dt.Rows[dataGridView1.CurrentCell.RowIndex][0] + "'", conn))
                             {
                                 command.ExecuteNonQuery();
@@ -290,12 +294,8 @@ namespace DemoEx
                         }
                         //reload_list();
                     }
-                    else if (dialogResult == DialogResult.No)
-                    {
-                        
-                    }
                     conn.Close();
-                    reload_list();
+                    reload_list(); //обновление таблицы
                 }
                 
             }

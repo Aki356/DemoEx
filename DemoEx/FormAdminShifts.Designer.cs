@@ -159,6 +159,7 @@ namespace DemoEx
             this.button1.TabIndex = 93;
             this.button1.Text = "Добавить";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // comboBox1
             // 
@@ -293,7 +294,7 @@ namespace DemoEx
             this.label1.TabIndex = 81;
             this.label1.Text = "Смены";
             // 
-            // Form9
+            // FormAdminShifts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -321,7 +322,7 @@ namespace DemoEx
             this.Controls.Add(this.listBox2);
             this.Controls.Add(this.listBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Form9";
+            this.Name = "FormAdminShifts";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form9";
             this.Load += new System.EventHandler(this.Form9_Load);

@@ -14,15 +14,17 @@ namespace DemoEx
 {
     public partial class FormToReg : Form
     {
+        //переменные для сохранения данных о статусе, должности.
         object[] status;
         object[] role;
         string name_status;
         string name_role;
-        //string connStr = "server=127.0.0.1;port=3306;user=root;database=kurs;";
+        //переменная данных для соединения с БД
         string connStr = "server=localhost;port=3306;user=root;database=kurs_5;password=root;";
         MySqlConnection conn;
         private MySqlDataAdapter MyDA = new MySqlDataAdapter();
 
+        //метод хэширует пароль в кодировке SHA-256
         static string sha256(string pass)
         {
             var crypt = new System.Security.Cryptography.SHA256Managed();
@@ -34,40 +36,42 @@ namespace DemoEx
             }
             return hash.ToString();
         }
+
+        //метод получает данные о должностях в организации, затем присваивает идентификаторы полю с выпадающим списком
         public void GetRoleUsers()
         {
-            string commandStr = "SELECT * FROM role";
+            string commandStr = "SELECT * FROM role"; //запрос для БД
             conn.Open();
-            using (MySqlDataAdapter da = new MySqlDataAdapter(commandStr, conn))
+            using (MySqlDataAdapter da = new MySqlDataAdapter(commandStr, conn)) //передача запроса в БД
             {
                 MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
                 DataTable dt = new DataTable();
                 BindingSource bs = new BindingSource();
-                da.Fill(dt);
+                da.Fill(dt); //заполнение таблицы данными по запросу
                 bs.DataSource = dt;
                 dataGridView1.DataSource = bs;
-                // This is important, because Update will work only on rows
-                // present in the DataTable whose RowState is Added, Modified or Deleted
                 foreach (DataGridViewRow row in dataGridView1.Rows) //перебираем все строки в таблице
                 {
                     foreach (DataGridViewCell cell in row.Cells) //перебираем все ячейки в каждой строке
                     {
                         if (cell.ColumnIndex == 0) //проверяем какому столбцу принадлежит ячейка (указать индекс вашего столбца)
                         {
-                            role = new object[] { Convert.ToInt32(cell.Value) };
+                            role = new object[] { Convert.ToInt32(cell.Value) }; //присвоение идентификаторов в массив
 
-                            comboBox2.Items.AddRange(role);
+                            comboBox2.Items.AddRange(role); //присвоение ячейкам выпадающего списка идентификаторов должностей 
                         }
                     }
                 }
             }
             conn.Close();
         }
+
+        //метод получает все данные о статусах пользователей и присваивает идентификаторы статусов выпадающему списку
         public void GetStatusUsers()
         {
-            string commandStr = "SELECT * FROM statususer";
+            string commandStr = "SELECT * FROM statususer"; //строка запроса для БД
             conn.Open();
-            using (MySqlDataAdapter da = new MySqlDataAdapter(commandStr, conn))
+            using (MySqlDataAdapter da = new MySqlDataAdapter(commandStr, conn)) //отправление запроса в БД
             {
                 MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
                 DataTable dt = new DataTable();
@@ -75,44 +79,41 @@ namespace DemoEx
                 da.Fill(dt);
                 bs.DataSource = dt;
                 dataGridView1.DataSource = bs;
-                // This is important, because Update will work only on rows
-                // present in the DataTable whose RowState is Added, Modified or Deleted
                 foreach (DataGridViewRow row in dataGridView1.Rows) //перебираем все строки в таблице
                 {
                     foreach (DataGridViewCell cell in row.Cells) //перебираем все ячейки в каждой строке
                     {
                         if (cell.ColumnIndex == 0) //проверяем какому столбцу принадлежит ячейка (указать индекс вашего столбца)
                         {
-                            status = new object[] { Convert.ToInt32(cell.Value) };
-                            comboBox3.Items.AddRange(status);
+                            status = new object[] { Convert.ToInt32(cell.Value) }; //присвоение идентификаторов в массив
+                            comboBox3.Items.AddRange(status); //присвоение ячейкам выпадающего списка идентификаторов статусов 
                         }
                     }
                 }
             }
             conn.Close();
         }
+
+        //метод проверяющий, есть ли в БД пользователь с такими же логином и паролем
         public bool GetUserInfo(string login, string password)
         {
-            string select_id = textBox1.Text;
             conn.Open();
-            string sql = $"SELECT * FROM users WHERE log_user='{login}' OR pass_user='{sha256(password)}'";
+            string sql = $"SELECT * FROM users WHERE log_user='{login}' OR pass_user='{sha256(password)}'"; //запрос для БД
             DataTable tb = new DataTable();
-            MySqlCommand command = new MySqlCommand(sql, conn);
+            MySqlCommand command = new MySqlCommand(sql, conn); //исполнение запроса
             MySqlDataAdapter adapter = new MySqlDataAdapter();
-            adapter.SelectCommand = command;
+            adapter.SelectCommand = command; //присвоение адаптеру результатов запроса
 
-            adapter.Fill(tb);
+            adapter.Fill(tb); //заполнение таблицы данными, для проверки на существование пользователя с такими же данными
             conn.Close();
 
             if (tb.Rows.Count > 0)
             {
-                // User is logged in maybe do FormsAuthentication.SetAuthcookie(username);
-                return true;
+                return true; //если есть такой пользователь
             }
             else
             {
-                // Authentication failed
-                return false;
+                return false; //если нет такого пользователя
             }
         }
         public FormToReg()
@@ -120,6 +121,7 @@ namespace DemoEx
             InitializeComponent();
         }
 
+        //при нажатии кнопки Зарегистрировать
         private void button1_Click(object sender, EventArgs e)
         {
             try
@@ -128,30 +130,28 @@ namespace DemoEx
                 {
                     MessageBox.Show("Такой пользователь уже существует!");
                 }
-                else
+                else //если такой пользователь не найден
                 {
+                    //запрос для БД
                     string sql = "SELECT log_user, pass_user, name_user, phone_user, id_role, statusUser_user FROM users";
                     conn.Open();
-                    //DataTable table = new DataTable();
-                    //MySqlDataAdapter adapter = new MySqlDataAdapter();
 
-                    using (MySqlDataAdapter da = new MySqlDataAdapter(sql, conn))
+                    using (MySqlDataAdapter da = new MySqlDataAdapter(sql, conn)) //выполнение запроса
                     {
                         MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
                         DataTable dt = new DataTable();
-                        da.Fill(dt);
-                        // This is important, because Update will work only on rows
-                        // present in the DataTable whose RowState is Added, Modified or Deleted
+                        da.Fill(dt); //заполнение таблицы по запросу
+                        //добавление в таблицу данных пользователя
                         dt.Rows.Add(textBox1.Text, sha256(textBox2.Text), textBox3.Text, textBox4.Text, comboBox2.SelectedItem, comboBox3.SelectedItem);
-                        da.Update(dt);
+                        da.Update(dt); //обновление данных
                     }
                     conn.Close();
                     MessageBox.Show("Регистрация прошла успешно!");
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) //ниже блок кода необходим для вывода возникших ошибок
             {
-                listBox1.Items.Add($"Возникло исключение: { ex.Message}");
+                listBox1.Items.Add($"Возникло исключение: { ex.Message}"); //вывод ошибки
                 listBox1.HorizontalScrollbar = true;
                 listBox1.Visible = true;
             }
@@ -161,15 +161,15 @@ namespace DemoEx
         {
             try
             {
-                conn = new MySqlConnection(connStr);
-                GetStatusUsers();
-                GetRoleUsers();
+                conn = new MySqlConnection(connStr); //подключение к БД при загрузке окна
+                GetStatusUsers(); //получение и заполнение списков данными статусов
+                GetRoleUsers(); //получение и заполнение списков данными должностей
                 textBox6.ReadOnly = true;
                 textBox7.ReadOnly = true;
             }
-            catch (Exception ex)
+            catch (Exception ex) //ниже блок кода необходим для вывода возникших ошибок
             {
-                listBox1.Items.Add($"Подключение отсутствует! Возникло исключение: { ex.Message}");
+                listBox1.Items.Add($"Подключение отсутствует! Возникло исключение: { ex.Message}"); //вывод ошибки
                 listBox1.HorizontalScrollbar = true;
                 listBox1.Visible = true;
             }
@@ -215,37 +215,39 @@ namespace DemoEx
 
         }
 
-        private void comboBox3_SelectedValueChanged(object sender, EventArgs e)
+        //при выборе в выпадающем списке идентификатора в поле выводится значение статуса(название)
+        private void comboBox3_SelectedValueChanged(object sender, EventArgs e) 
         {
             try
             {
-                if (comboBox3.SelectedItem.ToString() == "0")
+                if (comboBox3.SelectedItem.ToString() == "0") //если выбран 0
                 {
                     name_status = null;
                 }
-                else if (comboBox3.SelectedItem.ToString() == "1")
+                else if (comboBox3.SelectedItem.ToString() == "1") //если выбран 1
                 {
                     name_status = "Действующий";
                 }
-                else if (comboBox3.SelectedItem.ToString() == "2")
+                else if (comboBox3.SelectedItem.ToString() == "2") //если выбран 2
                 {
                     name_status = "Уволен";
                 }
-                else if (comboBox3.SelectedItem.ToString() == "3")
+                else if (comboBox3.SelectedItem.ToString() == "3") //если выбран 3
                 {
                     name_status = "Временно действующий";
                 }
 
-                textBox7.Text = name_status.ToString();
+                textBox7.Text = name_status.ToString(); //присвоение данных полю
             }
             catch (Exception ex)
             {
-                listBox1.Items.Add($"Возникло исключение: { ex.Message}");
+                listBox1.Items.Add($"Возникло исключение: { ex.Message}"); //вывод ошибок
                 listBox1.HorizontalScrollbar = true;
                 listBox1.Visible = true;
             }
         }
 
+        //при выборе в выпадающем списке идентификатора в поле выводится значение должности(название)
         private void comboBox2_SelectedValueChanged(object sender, EventArgs e)
         {
             try
@@ -285,6 +287,11 @@ namespace DemoEx
         private void button4_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

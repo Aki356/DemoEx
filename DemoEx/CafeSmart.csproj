@@ -265,16 +265,10 @@
     <None Include="Resources\employees.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\shifts.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\orders.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shifts1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Group 41.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
