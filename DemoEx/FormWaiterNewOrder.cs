@@ -26,6 +26,16 @@ namespace DemoEx
         {
             InitializeComponent();
         }
+        //метод для создлания рандомного числа - номера заказа
+        public int RandomNum()
+        {
+            //Создание объекта для генерации чисел
+            Random rnd = new Random();
+
+            //Получить случайное число (в диапазоне от 1 до 214748)
+            int value = rnd.Next(1, 214748);
+
+        }
 
         //метод получает все данные о товарах и присваивает название товаров выпадающему списку
         public void GetProducts()
@@ -40,22 +50,14 @@ namespace DemoEx
                 da.Fill(dt);
                 bs.DataSource = dt;
                 dataGridView1.DataSource = bs;
-                foreach (DataGridViewRow row in dataGridView1.Rows) //перебираем все строки в таблице
+                for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    foreach (DataGridViewCell cell in row.Cells) //перебираем все ячейки в каждой строке
-                    {
-                        if (cell.ColumnIndex == 0) //проверяем какому столбцу принадлежит ячейка (указать индекс вашего столбца)
-                        {
-                            //product = new object[] { cell.Value?.ToString() ?? String.Empty };
-                            product = new object[] { Convert.ToInt32(cell.Value) }; //присвоение идентификаторов в массив
-                            comboBox1.Items.AddRange(product); //присвоение ячейкам выпадающего списка идентификаторов статусов 
-                        }
-                    }
+                    product = new object[] { dt.Rows[i][1].ToString() }; //присвоение идентификаторов в массив
+                    comboBox1.Items.AddRange(product);
                 }
             }
             conn.Close();
         }
-
         //метод получает все данные о статусах заказов и присваивает названия статусов выпадающему списку
         public void GetStatusUsers()
         {
@@ -69,16 +71,10 @@ namespace DemoEx
                 da.Fill(dt);
                 bs.DataSource = dt;
                 dataGridView1.DataSource = bs;
-                foreach (DataGridViewRow row in dataGridView1.Rows) //перебираем все строки в таблице
+                for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    foreach (DataGridViewCell cell in row.Cells) //перебираем все ячейки в каждой строке
-                    {
-                        if (cell.ColumnIndex == 0) //проверяем какому столбцу принадлежит ячейка (указать индекс вашего столбца)
-                        {
-                            status = new object[] { Convert.ToInt32(cell.Value) }; //присвоение идентификаторов в массив
-                            comboBox2.Items.AddRange(status); //присвоение ячейкам выпадающего списка идентификаторов статусов 
-                        }
-                    }
+                    status = new object[] { dt.Rows[i][1].ToString() }; //присвоение идентификаторов в массив
+                    comboBox2.Items.AddRange(status);
                 }
             }
             conn.Close();
@@ -89,7 +85,7 @@ namespace DemoEx
             //{
                 conn = new MySqlConnection(connStr); //подключение к БД при загрузке окна
             GetStatusUsers(); //получение и заполнение списков данными статусов
-            GetProducts(); //получение и заполнение списков данными статусов
+            GetProducts(); //получение и заполнение списков данными продуктов
                 textBox6.ReadOnly = true;
                 textBox2.ReadOnly = true;
                 textBox3.ReadOnly = true;
@@ -108,42 +104,70 @@ namespace DemoEx
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
+            string sql_str = "SELECT * FROM status WHERE name_status = '" + comboBox2.SelectedItem + "'"; //строка запроса для БД
 
+            conn.Open();
+            using (MySqlDataAdapter da = new MySqlDataAdapter(sql_str, conn)) //отправление запроса в БД
+            {
+                MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
+                DataTable dt = new DataTable();
+                BindingSource bs = new BindingSource();
+                da.Fill(dt);
+                bs.DataSource = dt;
+                dataGridView1.DataSource = bs;
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    if (comboBox2.SelectedItem != null)
+                    {
+                        if (comboBox2.SelectedItem.ToString() == dt.Rows[i][1].ToString())
+                        {
+                            textBox6.Text = dt.Rows[i][0].ToString();
+                        }
+                        else
+                        {
+                            listBox1.Items.Add($"Выбранный элемент не совпадает ни с одним из БД");
+                            listBox1.HorizontalScrollbar = true;
+                            listBox1.Visible = true;
+                        }
+                    }
+                }
+            }
+            conn.Close();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
-                if (comboBox1.SelectedItem.ToString() == "1")
+                string sql_str = "SELECT id_product, name_product FROM product WHERE name_product = '" + comboBox1.SelectedItem + "'"; //строка запроса для БД
+
+                conn.Open();
+                using (MySqlDataAdapter da = new MySqlDataAdapter(sql_str, conn)) //отправление запроса в БД
                 {
-                    name_status = "В обработке";
+                    MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
+                    DataTable dt = new DataTable();
+                    BindingSource bs = new BindingSource();
+                    da.Fill(dt);
+                    bs.DataSource = dt;
+                    dataGridView1.DataSource = bs;
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        if (comboBox1.SelectedItem != null)
+                        {
+                            if (comboBox1.SelectedItem.ToString() == dt.Rows[i][1].ToString())
+                            {
+                                textBox3.Text = dt.Rows[i][0].ToString();
+                            }
+                            else
+                            {
+                                listBox1.Items.Add($"Выбранный элемент не совпадает ни с одним из БД");
+                                listBox1.HorizontalScrollbar = true;
+                                listBox1.Visible = true;
+                            }
+                        }
+                    }
                 }
-                else if (comboBox1.SelectedItem.ToString() == "2")
-                {
-                    name_status = "Принят";
-                }
-                else if (comboBox1.SelectedItem.ToString() == "3")
-                {
-                    name_status = "Готовится";
-                }
-                else if (comboBox1.SelectedItem.ToString() == "4")
-                {
-                    name_status = "Готов";
-                }
-                else if (comboBox1.SelectedItem.ToString() == "5")
-                {
-                    name_status = "Выдан";
-                }
-                else if (comboBox1.SelectedItem.ToString() == "6")
-                {
-                    name_status = "Оплачен";
-                }
-                else if (comboBox1.SelectedItem.ToString() == "7")
-                {
-                    name_status = "Отменен";
-                }
-                textBox3.Text = id_product.ToString();
+                conn.Close();
             }
             catch (Exception ex)
             {
@@ -170,6 +194,11 @@ namespace DemoEx
             }
             conn.Close();
             MessageBox.Show("Заказ добавлен!");
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
