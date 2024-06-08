@@ -185,20 +185,27 @@ namespace DemoEx
         {
             try
             {
-                //строка запроса для БД
-                string sql = "SELECT * FROM users WHERE users.id_role NOT IN (SELECT id_role FROM users  WHERE id_role = 0)";
-                conn.Open();
-                using (MySqlDataAdapter da = new MySqlDataAdapter(sql, conn)) //выполнение запроса
+                if(comboBox1.SelectedItem is null || Convert.ToInt32(comboBox1.SelectedItem) == 0)
                 {
-                    MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt); //заполнение таблицы данными по запросу
-                    dt.Rows[dataGridView1.CurrentCell.RowIndex][6] = comboBox1.SelectedItem; //изменение статуса
-                    da.Update(dt); //обновление данных
+                    MessageBox.Show("Ошибка! Проверьте введенные данные.");
                 }
-                conn.Close();
-                MessageBox.Show("Статус успешно изменен!");
-                reload_list(); //метод обновляющий таблицу
+                else
+                {
+                    //строка запроса для БД
+                    string sql = "SELECT * FROM users WHERE users.id_role NOT IN (SELECT id_role FROM users  WHERE id_role = 0)";
+                    conn.Open();
+                    using (MySqlDataAdapter da = new MySqlDataAdapter(sql, conn)) //выполнение запроса
+                    {
+                        MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt); //заполнение таблицы данными по запросу
+                        dt.Rows[dataGridView1.CurrentCell.RowIndex][6] = comboBox1.SelectedItem; //изменение статуса
+                        da.Update(dt); //обновление данных
+                    }
+                    conn.Close();
+                    MessageBox.Show("Статус успешно изменен!");
+                    reload_list(); //метод обновляющий таблицу
+                }
             }
             catch (Exception ex) //блок кода для вывода ошибок
             {
