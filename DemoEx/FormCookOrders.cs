@@ -119,24 +119,31 @@ namespace DemoEx
         {
             try
             {
-                string sql = "SELECT * FROM orders ORDER BY orders.id_order DESC";
-                conn.Open();
-                using (MySqlDataAdapter da = new MySqlDataAdapter(sql, conn))
+                if (string.IsNullOrEmpty(comboBox1?.SelectedItem?.ToString()))
                 {
-                    MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-                    using (MySqlCommand command = new MySqlCommand("UPDATE `orders` SET `id_status` = '" + comboBox1.SelectedItem + "' WHERE id_order = '" + dt.Rows[dataGridView1.CurrentCell.RowIndex][0] + "'", conn))
-                    {
-                        command.ExecuteNonQuery();
-                        MessageBox.Show("Статус успешно изменен!");
-                        da.Update(dt);
-                    }
+                    MessageBox.Show("Заполните все поля.");
                 }
+                else
+                {
+                    string sql = "SELECT * FROM orders ORDER BY orders.id_order DESC";
+                    conn.Open();
+                    using (MySqlDataAdapter da = new MySqlDataAdapter(sql, conn))
+                    {
+                        MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        using (MySqlCommand command = new MySqlCommand("UPDATE `orders` SET `id_status` = '" + comboBox1.SelectedItem + "' WHERE id_order = '" + dt.Rows[dataGridView1.CurrentCell.RowIndex][0] + "'", conn))
+                        {
+                            command.ExecuteNonQuery();
+                            MessageBox.Show("Статус успешно изменен!");
+                            da.Update(dt);
+                        }
+                    }
 
 
-                conn.Close();
-                reload_list();
+                    conn.Close();
+                    reload_list();
+                }
             }
             catch (Exception ex)
             {

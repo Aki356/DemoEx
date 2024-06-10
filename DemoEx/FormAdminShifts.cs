@@ -155,24 +155,31 @@ namespace DemoEx
         {
             try
             {
-                string sql = "SELECT date_shift, time_shift, id_user, role_user FROM shifts";
-                conn.Open();
-                //DataTable table = new DataTable();
-                //MySqlDataAdapter adapter = new MySqlDataAdapter();
-
-                using (MySqlDataAdapter da = new MySqlDataAdapter(sql, conn))
+                if (string.IsNullOrEmpty(dateTimePicker1?.Value.ToString()) || string.IsNullOrEmpty(dateTimePicker2?.Value.ToString()) || string.IsNullOrEmpty(dateTimePicker3?.Value.ToString()) || string.IsNullOrEmpty(comboBox1?.SelectedItem?.ToString()) || string.IsNullOrEmpty(textBox3?.Text))
                 {
-                    MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-                    // This is important, because Update will work only on rows
-                    // present in the DataTable whose RowState is Added, Modified or Deleted
-                    dt.Rows.Add(dateTimePicker1.Value.ToString("dd.MM.yyyy"), "" + dateTimePicker2.Value.ToString("HH:mm") + " - " + dateTimePicker3.Value.ToString("HH:mm") + "", comboBox1.SelectedItem, Convert.ToInt32(textBox3.Text));
-                    da.Update(dt);
+                    MessageBox.Show("Заполните все поля.");
                 }
-                conn.Close();
-                MessageBox.Show("Смена добавлена!");
-                reload_list();
+                else
+                {
+                    string sql = "SELECT date_shift, time_shift, id_user, role_user FROM shifts";
+                    conn.Open();
+                    //DataTable table = new DataTable();
+                    //MySqlDataAdapter adapter = new MySqlDataAdapter();
+
+                    using (MySqlDataAdapter da = new MySqlDataAdapter(sql, conn))
+                    {
+                        MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        // This is important, because Update will work only on rows
+                        // present in the DataTable whose RowState is Added, Modified or Deleted
+                        dt.Rows.Add(dateTimePicker1.Value.ToString("dd.MM.yyyy"), "" + dateTimePicker2.Value.ToString("HH:mm") + " - " + dateTimePicker3.Value.ToString("HH:mm") + "", comboBox1.SelectedItem, Convert.ToInt32(textBox3.Text));
+                        da.Update(dt);
+                    }
+                    conn.Close();
+                    MessageBox.Show("Смена добавлена!");
+                    reload_list();
+                }
             }
             catch (Exception ex)
             {
@@ -273,12 +280,16 @@ namespace DemoEx
 
         private void button3_Click(object sender, EventArgs e)
         {
-            this.Close();
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-
+            try
+            {
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                listBox1.Items.Add($"Возникло исключение: { ex.Message}");
+                listBox1.HorizontalScrollbar = true;
+                listBox1.Visible = true;
+            }
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)

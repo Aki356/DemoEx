@@ -185,7 +185,7 @@ namespace DemoEx
         {
             try
             {
-                if(comboBox1.SelectedItem is null || Convert.ToInt32(comboBox1.SelectedItem) == 0)
+                if(comboBox1?.SelectedItem is null || Convert.ToInt32(comboBox1?.SelectedItem) == 0)
                 {
                     MessageBox.Show("Ошибка! Проверьте введенные данные.");
                 }

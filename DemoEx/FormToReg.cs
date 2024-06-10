@@ -126,27 +126,34 @@ namespace DemoEx
         {
             try
             {
-                if (GetUserInfo(textBox1.Text, textBox2.Text) == true)
+                if (string.IsNullOrEmpty(textBox1?.Text) || string.IsNullOrEmpty(textBox2?.Text) || string.IsNullOrEmpty(textBox3?.Text) || string.IsNullOrEmpty(comboBox2?.SelectedItem?.ToString()) || string.IsNullOrEmpty(textBox4?.Text) || string.IsNullOrEmpty(comboBox3?.SelectedItem?.ToString()))
                 {
-                    MessageBox.Show("Такой пользователь уже существует!");
+                    MessageBox.Show("Заполните все поля.");
                 }
-                else //если такой пользователь не найден
+                else
                 {
-                    //запрос для БД
-                    string sql = "SELECT log_user, pass_user, name_user, phone_user, id_role, statusUser_user FROM users";
-                    conn.Open();
-
-                    using (MySqlDataAdapter da = new MySqlDataAdapter(sql, conn)) //выполнение запроса
+                    if (GetUserInfo(textBox1.Text, textBox2.Text) == true)
                     {
-                        MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
-                        DataTable dt = new DataTable();
-                        da.Fill(dt); //заполнение таблицы по запросу
-                        //добавление в таблицу данных пользователя
-                        dt.Rows.Add(textBox1.Text, sha256(textBox2.Text), textBox3.Text, textBox4.Text, comboBox2.SelectedItem, comboBox3.SelectedItem);
-                        da.Update(dt); //обновление данных
+                        MessageBox.Show("Такой пользователь уже существует!");
                     }
-                    conn.Close();
-                    MessageBox.Show("Регистрация прошла успешно!");
+                    else //если такой пользователь не найден
+                    {
+                        //запрос для БД
+                        string sql = "SELECT log_user, pass_user, name_user, phone_user, id_role, statusUser_user FROM users";
+                        conn.Open();
+
+                        using (MySqlDataAdapter da = new MySqlDataAdapter(sql, conn)) //выполнение запроса
+                        {
+                            MySqlCommandBuilder bd = new MySqlCommandBuilder(da);
+                            DataTable dt = new DataTable();
+                            da.Fill(dt); //заполнение таблицы по запросу
+                                         //добавление в таблицу данных пользователя
+                            dt.Rows.Add(textBox1.Text, sha256(textBox2.Text), textBox3.Text, textBox4.Text, comboBox2.SelectedItem, comboBox3.SelectedItem);
+                            da.Update(dt); //обновление данных
+                        }
+                        conn.Close();
+                        MessageBox.Show("Регистрация прошла успешно!");
+                    }
                 }
             }
             catch (Exception ex) //ниже блок кода необходим для вывода возникших ошибок

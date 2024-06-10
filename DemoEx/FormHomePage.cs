@@ -121,62 +121,68 @@ namespace DemoEx
         {
             try
             {
-                string sql = "SELECT * FROM users WHERE log_user = '" + textBox1.Text + "' and pass_user = '" + sha256(textBox2.Text) + "'";
-                conn.Open();
-                DataTable table = new DataTable();
-                MySqlDataAdapter adapter = new MySqlDataAdapter();
-                MySqlCommand command = new MySqlCommand(sql, conn);
-
-                command.Parameters.Add("@ul", MySqlDbType.VarChar, 25);
-                command.Parameters.Add("@up", MySqlDbType.VarChar, 25);
-
-                command.Parameters["@ul"].Value = textBox1.Text;
-                command.Parameters["@up"].Value = sha256(textBox2.Text);
-
-                adapter.SelectCommand = command;
-
-                adapter.Fill(table);
-                conn.Close();
-
-                if (table.Rows.Count > 0)
+                if (string.IsNullOrEmpty(textBox1?.Text) || string.IsNullOrEmpty(textBox2?.Text))
                 {
-                    Auth.auth = true;
-                    GetUserInfo(textBox1.Text);
-                    MessageBox.Show("Авторизация успешна!");
-                    if (Auth.auth_role == 1)
-                    {
-                        FormAdmin example = new FormAdmin();
-                        this.Hide();
-                        example.ShowDialog();
-                        this.Show();
-                    }
-                    else if (Auth.auth_role == 2)
-                    {
-                        FormWaiter example = new FormWaiter();
-                        this.Hide();
-                        example.ShowDialog();
-                        this.Show();
-                    }
-                    else if (Auth.auth_role == 3)
-                    {
-                        FormCook example = new FormCook();
-                        this.Hide();
-                        example.ShowDialog();
-                        this.Show();
-                    }
-                    else if (Auth.auth_role == 0)
-                    {
-                        //Form1 example = new Form1();
-                        this.label2.Text = "Вы вошли, но вы не являетесь сотрудником";
-                        //this.Hide();
-                        //example.ShowDialog();
-                    }
-
-
+                    MessageBox.Show("Заполните все поля.");
                 }
                 else
                 {
-                    MessageBox.Show("Неверные данные авторизации!");
+                    string sql = "SELECT * FROM users WHERE log_user = '" + textBox1.Text + "' and pass_user = '" + sha256(textBox2.Text) + "'";
+                    conn.Open();
+                    DataTable table = new DataTable();
+                    MySqlDataAdapter adapter = new MySqlDataAdapter();
+                    MySqlCommand command = new MySqlCommand(sql, conn);
+
+                    command.Parameters.Add("@ul", MySqlDbType.VarChar, 25);
+                    command.Parameters.Add("@up", MySqlDbType.VarChar, 25);
+
+                    command.Parameters["@ul"].Value = textBox1.Text;
+                    command.Parameters["@up"].Value = sha256(textBox2.Text);
+
+                    adapter.SelectCommand = command;
+
+                    adapter.Fill(table);
+                    conn.Close();
+
+                    if (table.Rows.Count > 0)
+                    {
+                        Auth.auth = true;
+                        GetUserInfo(textBox1.Text);
+                        if (Auth.auth_role == 1)
+                        {
+                            MessageBox.Show("Авторизация успешна!");
+                            FormAdmin example = new FormAdmin();
+                            this.Hide();
+                            example.ShowDialog();
+                            this.Show();
+                        }
+                        else if (Auth.auth_role == 2)
+                        {
+                            MessageBox.Show("Авторизация успешна!");
+                            FormWaiter example = new FormWaiter();
+                            this.Hide();
+                            example.ShowDialog();
+                            this.Show();
+                        }
+                        else if (Auth.auth_role == 3)
+                        {
+                            MessageBox.Show("Авторизация успешна!");
+                            FormCook example = new FormCook();
+                            this.Hide();
+                            example.ShowDialog();
+                            this.Show();
+                        }
+                        else if (Auth.auth_role == 0)
+                        {
+                            MessageBox.Show("Вы вошли, но вы не являетесь сотрудником.");
+                        }
+
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Неверные данные авторизации!");
+                    }
                 }
             }
             catch (Exception ex)
